@@ -1,0 +1,122 @@
+.chart-container {
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.chart-title {
+  margin: 0 !important;
+}
+
+.price-info {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.price-change, .current-price {
+  margin: 0 !important;
+  white-space: nowrap;
+}
+
+.price-change .positive {
+  color: #16c784;
+}
+
+.price-change .negative {
+  color: #ea3943;
+}
+
+.time-period {
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .price-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+.chart-wrapper {
+  width: 100%;
+  padding: 20px 40px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-tooltip {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-tooltip .label {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.custom-tooltip .price {
+  margin: 5px 0 0;
+  color: #0071bd;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Make sure numbers are properly formatted */
+.recharts-cartesian-axis-tick-value {
+  font-size: 12px;
+}
+
+/* Improve reference line labels */
+.recharts-reference-line-label {
+  fill: #666;
+  font-size: 12px;
+}
+
+/* Y-axis label styling */
+.recharts-label {
+  transform: rotate(-90deg);
+  transform-origin: center;
+  font-size: 14px;
+}
+
+.recharts-yAxis .recharts-label {
+  transform: rotate(-90deg) translateX(-50%);
+}
+
+/* Make the chart container wider */
+.recharts-wrapper {
+  margin-left: 20px;
+}
+
+.error-container {
+  text-align: center;
+  padding: 20px;
+  background: #fff1f0;
+  border: 1px solid #ffa39e;
+  border-radius: 8px;
+  margin: 20px 0;
+}

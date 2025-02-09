@@ -1,19 +1,48 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const cryptoNewsHeaders = {
-  'x-bingapis-sdk': 'true',
-  'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
-  'x-rapidapi-host': process.env.REACT_APP_NEWS_RAPIDAPI_HOST,
-};
-
-const createRequest = (url) => ({ url, headers: cryptoNewsHeaders });
+const API_KEY = '403eb2d29cf1f8707b3f15eb5111dbb75a80b49c';
 
 export const cryptoNewsApi = createApi({
   reducerPath: 'cryptoNewsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_NEWS_API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://min-api.cryptocompare.com',
+    prepareHeaders: (headers) => {
+      headers.set('authorization', `Apikey ${API_KEY}`);
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     getCryptoNews: builder.query({
-      query: ({ newsCategory, count }) => createRequest(`/news/search?q=${newsCategory}&safeSearch=Off&textFormat=Raw&freshness=Day&count=${count}`),
+      query: ({ count }) => ({
+        url: '/data/v2/news/',
+        method: 'GET',
+        params: {
+          lang: 'EN',
+          limit: count
+        }
+      }),
+      transformResponse: (response) => {
+        // Check if we have a valid response
+        if (response && Array.isArray(response.Data)) {
+          return {
+            data: {
+              Data: response.Data.map(article => ({
+                ...article,
+                url: article.url,
+                title: article.title,
+                body: article.body,
+                imageurl: article.imageurl,
+                source_info: {
+                  name: article.source,
+                  img: article.source_info?.img
+                },
+                published_on: article.published_on
+              }))
+            }
+          };
+        }
+        return { data: { Data: [] } };
+      },
     }),
   }),
 });

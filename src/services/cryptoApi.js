@@ -10,7 +10,16 @@ const createRequest = (url) => ({ url, headers: cryptoApiHeaders });
 
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_CRYPTO_API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_CRYPTO_API_URL || 'https://coinranking1.p.rapidapi.com',
+    prepareHeaders: (headers) => {
+      headers.set('X-RapidAPI-Key', process.env.REACT_APP_RAPIDAPI_KEY);
+      headers.set('X-RapidAPI-Host', 'coinranking1.p.rapidapi.com');
+      headers.set('Access-Control-Allow-Origin', '*');
+      headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     getCryptos: builder.query({
       query: (count) => createRequest(`/coins?limit=${count}`),
