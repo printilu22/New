@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const cryptoNewsHeaders = {
-  'authorization': `Apikey ${process.env.REACT_APP_CRYPTOCOMPARE_API_KEY}`,
+  authorization: `Apikey ${process.env.REACT_APP_CRYPTOCOMPARE_API_KEY}`,
 };
 
 const baseUrl = 'https://min-api.cryptocompare.com/data/v2';
@@ -15,25 +15,27 @@ export const cryptoNewsApi = createApi({
     getCryptoNews: builder.query({
       query: ({ count }) => createRequest(`/news/?lang=EN&sortOrder=popular&limit=${count}`),
       transformResponse: (response) => ({
-        value: response.Data.map(article => ({
+        value: response.Data.map((article) => ({
           url: article.url,
           name: article.title,
           description: article.body,
           datePublished: article.published_on * 1000, // Convert to milliseconds
           image: {
             thumbnail: {
-              contentUrl: article.imageurl
-            }
+              contentUrl: article.imageurl,
+            },
           },
-          provider: [{
-            name: article.source,
-            image: {
-              thumbnail: {
-                contentUrl: article.source_info?.img
-              }
-            }
-          }]
-        }))
+          provider: [
+            {
+              name: article.source,
+              image: {
+                thumbnail: {
+                  contentUrl: article.source_info?.img,
+                },
+              },
+            },
+          ],
+        })),
       }),
     }),
   }),
