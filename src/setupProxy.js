@@ -1,18 +1,29 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = function(app) {
+module.exports = function setupProxy(app) {
+  const handleProxyResponse = (proxyRes) => {
+    // Create new headers object instead of modifying existing one
+    const newHeaders = {
+      ...proxyRes.headers,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    };
+
+    // Return new object with updated headers
+    return {
+      ...proxyRes,
+      headers: newHeaders,
+    };
+  };
+
   app.use(
     '/api',
     createProxyMiddleware({
-      target: process.env.REACT_APP_CRYPTO_API_URL || 'https://coinranking1.p.rapidapi.com',
+      target: 'your-api-url',
       changeOrigin: true,
-      pathRewrite: {
-        '^/api': '',
-      },
-      onProxyRes: function (proxyRes) {
-        proxyRes.headers['Access-Control-Allow-Origin'] = '*';
-      },
-    })
+      onProxyRes: handleProxyResponse,
+    }),
   );
 
   app.use(
@@ -26,11 +37,11 @@ module.exports = function(app) {
       onProxyReq: (proxyReq) => {
         proxyReq.setHeader('authorization', `Apikey ${process.env.REACT_APP_CRYPTOCOMPARE_API_KEY}`);
       },
-      onProxyRes: function(proxyRes) {
+      onProxyRes(proxyRes) {
         proxyRes.headers['Access-Control-Allow-Origin'] = '*';
         proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
         proxyRes.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
       },
-    })
+    }),
   );
-}; 
+};

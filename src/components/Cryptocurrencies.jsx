@@ -9,15 +9,16 @@ import Loader from './Loader';
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
   const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
-  const [cryptos, setCryptos] = useState();
+  const [cryptos, setCryptos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    setCryptos(cryptosList?.data?.coins);
-
-    const filteredData = cryptosList?.data?.coins.filter((item) => item.name.toLowerCase().includes(searchTerm));
-
-    setCryptos(filteredData);
+    if (cryptosList?.data?.coins) {
+      const filteredData = cryptosList.data.coins.filter((coin) =>
+        coin.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      setCryptos(filteredData);
+    }
   }, [cryptosList, searchTerm]);
 
   if (isFetching) return <Loader />;
@@ -28,7 +29,7 @@ const Cryptocurrencies = ({ simplified }) => {
         <div className="search-crypto">
           <Input
             placeholder="Search Cryptocurrency"
-            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       )}
@@ -41,17 +42,15 @@ const Cryptocurrencies = ({ simplified }) => {
             className="crypto-card"
             key={currency.uuid}
           >
-
-            {/* Note: Change currency.id to currency.uuid  */}
-            <Link key={currency.uuid} to={`/crypto/${currency.uuid}`}>
+            <Link to={`/crypto/${currency.uuid}`}>
               <Card
                 title={`${currency.rank}. ${currency.name}`}
-                extra={<img className="crypto-image" src={currency.iconUrl} />}
+                extra={<img className="crypto-image" src={currency.iconUrl} alt={currency.name} />}
                 hoverable
               >
                 <p>Price: {millify(currency.price)}</p>
                 <p>Market Cap: {millify(currency.marketCap)}</p>
-                <p>Daily Change: {currency.change}%</p>
+                <p>Daily Change: {millify(currency.change)}%</p>
               </Card>
             </Link>
           </Col>

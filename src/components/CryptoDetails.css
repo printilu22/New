@@ -1,7 +1,7 @@
 .coin-desc-container {
   margin: 20px 0;
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: #030a18;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
@@ -53,7 +53,7 @@
 .no-description {
   text-align: center;
   padding: 40px 20px;
-  background: #fafafa;
+  background: #030a18;
   border-radius: 8px;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .coin-stats:hover {
-  background-color: #f0f0f0;
+  background-color: #030a18;
   transform: translateY(-2px);
 }
 

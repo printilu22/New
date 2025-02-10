@@ -9,19 +9,19 @@ import {
   Legend,
   ReferenceLine,
   ResponsiveContainer,
-  Label
+  Label,
 } from 'recharts';
 import moment from 'moment';
 import './LineChart.css';
 import PropTypes from 'prop-types';
 
 const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
-  useEffect(() => {
+  useEffect(() =>
     // Cleanup function
-    return () => {
+     () => {
       // Clear any subscriptions or timeouts if added in future
-    };
-  }, []);
+    },
+   []);
 
   if (!coinHistory?.data?.history) {
     return <div className="chart-wrapper">No data available</div>;
@@ -34,8 +34,8 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
       price: parseFloat(item.price) || 0, // Fallback to 0 if parsing fails
     })).reverse();
 
-    const maxPrice = Math.max(...data.map(item => item.price));
-    const maxPricePoint = data.find(item => item.price === maxPrice);
+    const maxPrice = Math.max(...data.map((item) => item.price));
+    const maxPricePoint = data.find((item) => item.price === maxPrice);
 
     // Custom tooltip formatter
     const CustomTooltip = ({ active, payload, label }) => {
@@ -73,16 +73,16 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
             <YAxis
               domain={['auto', 'auto']}
               tickFormatter={(value) => `$${value.toFixed(2)}`}
-              label={{ 
-                value: 'Price in USD', 
+              label={{
+                value: 'Price in USD',
                 angle: -90,
                 position: 'insideLeft',
                 offset: -45,
-                style: { 
+                style: {
                   textAnchor: 'middle',
                   fill: '#666',
-                  fontSize: '14px'
-                }
+                  fontSize: '14px',
+                },
               }}
             />
             <Tooltip content={<CustomTooltip />} />
@@ -92,7 +92,7 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
               stroke="#1677ff"
               strokeDasharray="3 3"
             >
-              <Label 
+              <Label
                 value="Current Price"
                 position="insideRight"
                 fill="#1677ff"
@@ -106,7 +106,7 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
                 stroke="#52c41a"
                 strokeDasharray="3 3"
               >
-                <Label 
+                <Label
                   value={`ATH: $${maxPrice.toFixed(2)}`}
                   position="insideRight"
                   fill="#52c41a"
@@ -144,11 +144,29 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
 CryptoChart.propTypes = {
   coinHistory: PropTypes.shape({
     data: PropTypes.shape({
-      history: PropTypes.array
-    })
+      history: PropTypes.array,
+    }),
   }),
   currentPrice: PropTypes.number,
-  coinName: PropTypes.string.isRequired
+  coinName: PropTypes.string.isRequired,
+};
+
+LineChart.defaultProps = {
+  coinHistory: {
+    data: {
+      history: [],
+    },
+  },
+  currentPrice: 0,
+};
+
+LineChart.propTypes = {
+  coinHistory: PropTypes.shape({
+    data: PropTypes.shape({
+      history: PropTypes.arrayOf(PropTypes.shape({})),
+    }),
+  }),
+  currentPrice: PropTypes.number,
 };
 
 export default CryptoChart;

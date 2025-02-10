@@ -6,7 +6,6 @@ import { Col, Row, Typography, Select, Spin } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
 import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../services/cryptoApi';
-import Loader from './Loader';
 import CryptoChart from './LineChart';
 import './CryptoDetails.css';
 
@@ -52,7 +51,7 @@ const CryptoDetails = () => {
         <Title level={2} className="coin-name">
           {data?.data?.coin.name} ({data?.data?.coin.symbol}) Price
         </Title>
-        <p>{cryptoDetails.name} live price in US Dollar (USD). View value statistics, market cap and supply.</p>
+        <p style={{ color: "white" }}>{cryptoDetails.name} live price in US Dollar (USD). View value statistics, market cap and supply.</p>
       </Col>
       <Select defaultValue="7d" className="select-timeperiod" placeholder="Select Timeperiod" onChange={(value) => setTimeperiod(value)}>
         {time.map((date) => <Option key={date}>{date}</Option>)}
@@ -63,30 +62,30 @@ const CryptoDetails = () => {
             {cryptoDetails.name} Price Chart
           </Title>
           <div className="price-info">
-            <Title level={5} className="price-change">
+            <Title level={5} className="price-change" style={{ color: "white" }}>
               Change: <span className={coinHistory?.data?.change > 0 ? 'positive' : 'negative'}>
                 {coinHistory?.data?.change}%
               </span>
             </Title>
-            <Title level={5} className="current-price">
+            <Title level={5} className="current-price" style={{ color: "white" }}>
               Current {cryptoDetails.name} Price: $ {cryptoDetails?.price && millify(cryptoDetails?.price)}
             </Title>
           </div>
         </div>
-        <CryptoChart 
-          coinHistory={coinHistory} 
-          currentPrice={cryptoDetails?.price && millify(cryptoDetails?.price)} 
-          coinName={cryptoDetails?.name} 
+        <CryptoChart
+          coinHistory={coinHistory}
+          currentPrice={cryptoDetails?.price && millify(cryptoDetails?.price)}
+          coinName={cryptoDetails?.name}
         />
       </Row>
       <Col className="stats-container">
         <Col className="coin-value-statistics">
           <Col className="coin-value-statistics-heading">
             <Title level={3} className="coin-details-heading">{cryptoDetails.name} Value Statistics</Title>
-            <p>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
+            <p style={{ color: "white" }}>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
           </Col>
           {stats.map(({ icon, title, value }) => (
-            <Col className="coin-stats">
+            <Col className="coin-stats" key={title}>
               <Col className="coin-stats-name">
                 <Text>{icon}</Text>
                 <Text>{title}</Text>
@@ -98,7 +97,7 @@ const CryptoDetails = () => {
         <Col className="other-stats-info">
           <Col className="coin-value-statistics-heading">
             <Title level={3} className="coin-details-heading">Other Stats Info</Title>
-            <p>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
+            <p style={{ color: "white" }}>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
           </Col>
           {genericStats.map(({ icon, title, value }) => (
             <Col className="coin-stats">
@@ -119,25 +118,25 @@ const CryptoDetails = () => {
           <div className="coin-desc-container">
             {cryptoDetails.description ? (
               <>
-                <div className="coin-desc-text">
+                <div className="coin-desc-text" style={{ color: "white" }}>
                   {HTMLReactParser(cryptoDetails.description)}
                 </div>
                 <div className="additional-info">
-                  <Title level={4}>Quick Facts about {cryptoDetails.name}</Title>
+                  <Title level={4} style={{ color: "white" }}>Quick Facts about {cryptoDetails.name}</Title>
                   <ul className="quick-facts">
-                    <li>
+                    <li style={{ color: "white" }}>
                       <strong>Launch Date:</strong> {cryptoDetails.launchDate || 'Not Available'}
                     </li>
-                    <li>
+                    <li style={{ color: "white" }}>
                       <strong>Category:</strong> {cryptoDetails.category || 'Cryptocurrency'}
                     </li>
-                    <li>
+                    <li style={{ color: "white" }}>
                       <strong>All Time High:</strong> ${millify(cryptoDetails?.allTimeHigh?.price || 0)}
                     </li>
-                    <li>
+                    <li style={{ color: "white" }}> 
                       <strong>Current Price:</strong> ${millify(cryptoDetails?.price || 0)}
                     </li>
-                    <li>
+                    <li style={{ color: "white" }}>
                       <strong>Market Rank:</strong> #{cryptoDetails.rank}
                     </li>
                   </ul>
@@ -155,7 +154,7 @@ const CryptoDetails = () => {
           <Title level={3} className="coin-details-heading">{cryptoDetails.name} Links</Title>
           {cryptoDetails.links?.map((link) => (
             <Row className="coin-link" key={link.name}>
-              <Title level={5} className="link-name">{link.type}</Title>
+              <Title level={5} className="link-name" style={{ color: "white" }}>{link.type}</Title>
               <a href={link.url} target="_blank" rel="noreferrer">{link.name}</a>
             </Row>
           ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography, Collapse, Avatar, Statistic } from 'antd';
+import { Row, Col, Typography, Collapse, Avatar, Statistic, Spin } from 'antd';
 import { useGetExchangesQuery } from '../services/cryptoExchangesApi';
 import millify from 'millify';
 import HTMLReactParser from 'html-react-parser';
@@ -10,42 +10,39 @@ const { Panel } = Collapse;
 const Exchanges = () => {
   const { data: exchanges, isFetching, error } = useGetExchangesQuery();
 
-  if (isFetching) return 'Loading...';
+  if (isFetching) return <Spin size="large" />;
   if (error) return 'Error loading exchanges';
   if (!exchanges) return 'No exchanges data available';
 
   return (
-    <>
-      <Row>
-        <Col span={6}><Title level={5}>Exchange</Title></Col>
-        <Col span={6}><Title level={5}>24h Trade Volume</Title></Col>
-        <Col span={6}><Title level={5}>Trust Score</Title></Col>
-        <Col span={6}><Title level={5}>Established</Title></Col>
+    <div className="exchange-container">
+      <Title level={3} className="exchange-title" style={{ color: "white" }}>Crypto Exchanges</Title>
+      <Row gutter={[16, 16]} className="exchange-header" style={{inbetwee: '10px'}}>
+        <Col span={6}><Text strong style={{ color: "white" }}>Exchange</Text></Col>
+        <Col span={6}><Text strong style={{ color: "white" }}>24h Trade Volume</Text></Col>
+        <Col span={6}><Text strong style={{ color: "white" }}>Trust Score</Text></Col>
+        <Col span={6}><Text strong style={{ color: "white" }}>Established</Text></Col>
       </Row>
-      <Row>
+      <Row gutter={[16, 16]} className="exchange-body">
         {exchanges.map((exchange) => (
           <Col span={24} key={exchange.id}>
-            <Collapse>
+            <Collapse accordion>
               <Panel
                 key={exchange.id}
-                showArrow={false}
+                className="exchange-panel"
                 header={(
-                  <Row key={exchange.id}>
-                    <Col span={6}>
-                      <Text><strong>{exchange.trust_rank}.</strong></Text>
-                      <Avatar className="exchange-image" src={exchange.image} />
-                      <Text><strong>{exchange.name}</strong></Text>
+                  <Row align="middle" className="exchange-row">
+                    <Col span={6} className="exchange-col">
+                      <Avatar className="exchange-avatar" src={exchange.image} />
+                      <Text className="exchange-name">{exchange.name}</Text>
                     </Col>
-                    <Col span={6}>
-                      <Statistic 
-                        value={millify(exchange.trade_volume_24h_btc)} 
-                        suffix="BTC"
-                      />
+                    <Col span={6} className="exchange-col">
+                      <Statistic value={millify(exchange.trade_volume_24h_btc)} suffix="BTC" />
                     </Col>
-                    <Col span={6}>
-                      <Text>{exchange.trust_score}</Text>
+                    <Col span={6} className="exchange-col">
+                      <Text>{exchange.trust_score || 'N/A'}</Text>
                     </Col>
-                    <Col span={6}>
+                    <Col span={6} className="exchange-col">
                       <Text>{exchange.year_established || 'N/A'}</Text>
                     </Col>
                   </Row>
@@ -63,7 +60,7 @@ const Exchanges = () => {
           </Col>
         ))}
       </Row>
-    </>
+    </div>
   );
 };
 
