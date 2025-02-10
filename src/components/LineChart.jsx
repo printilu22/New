@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
   useEffect(() =>
     // Cleanup function
-     () => {
+    () => {
       // Clear any subscriptions or timeouts if added in future
     },
    []);
@@ -37,7 +37,7 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
     const maxPrice = Math.max(...data.map((item) => item.price));
     const maxPricePoint = data.find((item) => item.price === maxPrice);
 
-    // Custom tooltip formatter
+    // Custom tooltip component
     const CustomTooltip = ({ active, payload, label }) => {
       if (active && payload && payload.length) {
         return (
@@ -48,6 +48,13 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
         );
       }
       return null;
+    };
+
+    // Add prop-types for CustomTooltip
+    CustomTooltip.propTypes = {
+      active: PropTypes.bool,
+      payload: PropTypes.array,
+      label: PropTypes.string,
     };
 
     return (
@@ -135,7 +142,7 @@ const CryptoChart = ({ coinHistory, currentPrice, coinName }) => {
       </div>
     );
   } catch (error) {
-    console.error('Chart data processing error:', error);
+    // console.error('Chart data processing error:', error);
     return <div className="chart-wrapper">Error processing chart data</div>;
   }
 };
@@ -151,22 +158,13 @@ CryptoChart.propTypes = {
   coinName: PropTypes.string.isRequired,
 };
 
-LineChart.defaultProps = {
+CryptoChart.defaultProps = {
   coinHistory: {
     data: {
       history: [],
     },
   },
   currentPrice: 0,
-};
-
-LineChart.propTypes = {
-  coinHistory: PropTypes.shape({
-    data: PropTypes.shape({
-      history: PropTypes.arrayOf(PropTypes.shape({})),
-    }),
-  }),
-  currentPrice: PropTypes.number,
 };
 
 export default CryptoChart;

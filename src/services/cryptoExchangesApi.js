@@ -23,4 +23,4 @@ export const cryptoExchangesApi = createApi({
   }),
 });
 
-export const { useGetExchangesQuery } = cryptoExchangesApi; 
+export const { useGetExchangesQuery } = cryptoExchangesApi;

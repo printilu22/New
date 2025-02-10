@@ -100,7 +100,7 @@ const CryptoDetails = () => {
             <p style={{ color: "white" }}>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
           </Col>
           {genericStats.map(({ icon, title, value }) => (
-            <Col className="coin-stats">
+            <Col className="coin-stats" key={title}>
               <Col className="coin-stats-name">
                 <Text>{icon}</Text>
                 <Text>{title}</Text>
@@ -133,7 +133,7 @@ const CryptoDetails = () => {
                     <li style={{ color: "white" }}>
                       <strong>All Time High:</strong> ${millify(cryptoDetails?.allTimeHigh?.price || 0)}
                     </li>
-                    <li style={{ color: "white" }}> 
+                    <li style={{ color: "white" }}>
                       <strong>Current Price:</strong> ${millify(cryptoDetails?.price || 0)}
                     </li>
                     <li style={{ color: "white" }}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
@@ -11,11 +12,9 @@ const News = ({ simplified }) => {
   const { data: cryptoNews, isFetching, error } = useGetCryptoNewsQuery({
     count: simplified ? 6 : 12,
   });
+  if (isFetching) return <span style={{ color: 'white' }}>Loading...</span>;
 
-  if (isFetching) return <span style={{ color: "white" }}>Loading...</span>;
-  
   if (error) {
-    console.error('News API Error:', error);
     return 'Error loading news';
   }
 
@@ -33,26 +32,24 @@ const News = ({ simplified }) => {
                 <Title className="news-title" level={4}>
                   {news.name}
                 </Title>
-                <img 
-                  src={news?.image?.thumbnail?.contentUrl || demoImage} 
-                  alt="news" 
+                <img
+                  src={news?.image?.thumbnail?.contentUrl || demoImage}
+                  alt="news"
                   style={{ maxWidth: '200px', maxHeight: '100px' }}
                 />
               </div>
               <p>
-                {news.description.length > 100 
-                  ? `${news.description.substring(0, 100)}...` 
+                {news.description.length > 100
+                  ? `${news.description.substring(0, 100)}...`
                   : news.description}
               </p>
               <div className="provider-container">
                 <div>
-                  <Avatar 
-                    src={news.provider[0]?.image?.thumbnail?.contentUrl || demoImage} 
+                  <Avatar
+                    src={news.provider[0]?.image?.thumbnail?.contentUrl || demoImage}
                     alt="news"
                   />
-                  <Text className="provider-name">
-                    {news.provider[0]?.name}
-                  </Text>
+                  <Text className="provider-name">{news.provider[0]?.name}</Text>
                 </div>
                 <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
               </div>
@@ -62,6 +59,11 @@ const News = ({ simplified }) => {
       ))}
     </Row>
   );
+};
+
+// Add PropTypes validation
+News.propTypes = {
+  simplified: PropTypes.bool,
 };
 
 export default News;
