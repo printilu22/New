@@ -11,7 +11,7 @@ import {
 } from './components';
 import './App.css';
 
-const { Header, Footer, Sider, Content } = Layout;
+// const { Header, Footer, Sider, Content } = Layout;
 
 const App = () => {
   return (
