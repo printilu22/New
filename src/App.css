@@ -480,6 +480,7 @@ a:hover{
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 120px;
+    color: white;
 }
 
 /* Statistic value alignment */
@@ -563,3 +564,8 @@ a:hover{
     transform: scale(1.05);
     box-shadow: 0 4px 20px var(--shadow);
 }
+
+svg[data-icon="right"] {
+    fill: white !important;
+  }
+  

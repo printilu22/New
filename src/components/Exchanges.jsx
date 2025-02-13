@@ -34,16 +34,16 @@ const Exchanges = () => {
                   <Row align="middle" className="exchange-row">
                     <Col span={6} className="exchange-col">
                       <Avatar className="exchange-avatar" src={exchange.image} />
-                      <Text className="exchange-name">{exchange.name}</Text>
+                      <Text className="exchange-name" style={{color:'white'}}>{exchange.name}</Text>
                     </Col>
                     <Col span={6} className="exchange-col">
-                      <Statistic value={millify(exchange.trade_volume_24h_btc)} suffix="BTC" />
+                      <Statistic value={millify(exchange.trade_volume_24h_btc)} suffix="BTC" valueStyle={{ color: 'white' }} />
                     </Col>
                     <Col span={6} className="exchange-col">
-                      <Text>{exchange.trust_score || 'N/A'}</Text>
+                      <Text style={{color:'white'}}>{exchange.trust_score || 'N/A'}</Text>
                     </Col>
                     <Col span={6} className="exchange-col">
-                      <Text>{exchange.year_established || 'N/A'}</Text>
+                      <Text style={{color:'white'}}>{exchange.year_established || 'N/A'}</Text>
                     </Col>
                   </Row>
                 )}
